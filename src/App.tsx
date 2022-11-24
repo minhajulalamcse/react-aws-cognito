@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { ResetPasswordPage, SignInPage, SignUpPage, VerifyEmailPage } from "./pages";
+import { ChangePasswordPage, ResetPasswordPage, SignInPage, SignUpPage, VerifyEmailPage } from "./pages";
 
 function App() {
     return (
@@ -8,6 +8,7 @@ function App() {
             <Route path="/signin" element={<SignInPage />} />
             <Route path="/verify-email" element={<VerifyEmailPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/change-password" element={<ChangePasswordPage />} />
         </Routes>
     );
 }

@@ -1,5 +1,6 @@
 import { Auth } from "aws-amplify";
 import { ISignUpFormValues } from "../interfaces/ISignUpFormValues";
+import { IVerifyEmailValues } from "../interfaces/IVerifyEmailValues";
 
 export const signUp = async (values: ISignUpFormValues) => {
     const { firstName, lastName, email, password } = values;
@@ -13,6 +14,15 @@ export const signUp = async (values: ISignUpFormValues) => {
             },
         });
         return user;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const confirmSignUp = async (values: IVerifyEmailValues) => {
+    const { email, code } = values;
+    try {
+        await Auth.confirmSignUp(email, code);
     } catch (error) {
         throw error;
     }

@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { signUp } from "../../Auth";
 import { ISignUpFormValues } from "../../interfaces/ISignUpFormValues";
 import { saveInLocalStorage } from "../../utils";
+import { LS_EMAIL } from "../../utils/constants";
 import FormWrapper from "../common/FormWrapper";
 
 const SignUpForm = () => {
@@ -31,15 +32,17 @@ const SignUpForm = () => {
     });
 
     const onSubmit = (values: ISignUpFormValues, actions: FormikHelpers<ISignUpFormValues>) => {
-        handleCreateUser(values);
+        handleCreateUser(values, actions);
     };
 
-    const handleCreateUser = async (values: ISignUpFormValues) => {
+    const handleCreateUser = async (values: ISignUpFormValues, actions: FormikHelpers<ISignUpFormValues>) => {
         try {
             const user: CognitoUser = await signUp(values);
-            saveInLocalStorage("email", user.getUsername());
+            saveInLocalStorage(LS_EMAIL, user.getUsername());
+            actions.setSubmitting(false);
             navigate("/verify-email");
         } catch (error: any) {
+            actions.setSubmitting(false);
             console.log(error);
         }
     };
@@ -151,7 +154,14 @@ const SignUpForm = () => {
                                 helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
                             />
 
-                            <Button type="submit" variant="contained" disableElevation fullWidth sx={{ mt: "12px" }}>
+                            <Button
+                                disabled={!formik.isValid || formik.isSubmitting}
+                                type="submit"
+                                variant="contained"
+                                disableElevation
+                                fullWidth
+                                sx={{ mt: "12px" }}
+                            >
                                 Submit
                             </Button>
                         </Form>

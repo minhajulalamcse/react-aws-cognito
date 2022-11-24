@@ -1,20 +1,46 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { Formik, Form, FormikHelpers } from "formik";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { confirmSignUp } from "../../Auth";
 import { IVerifyEmailValues } from "../../interfaces/IVerifyEmailValues";
+import { getFromLocalStorage, removeFromLocalStorage } from "../../utils";
+import { LS_EMAIL } from "../../utils/constants";
 import FormWrapper from "../common/FormWrapper";
 
 const VerifyEmailForm = () => {
+    const navigate = useNavigate();
+    const [email, setEmail] = useState<string | null>(null);
+
+    useEffect(() => {
+        setEmail(getFromLocalStorage(LS_EMAIL));
+    }, []);
+
     const initialValues: IVerifyEmailValues = {
+        email: email || "",
         code: "",
     };
 
     const validationSchema = yup.object().shape({
         code: yup.string().required("Required"),
+        email: yup.string().email("Invalid email").required("Required"),
     });
 
     const onSubmit = (values: IVerifyEmailValues, actions: FormikHelpers<IVerifyEmailValues>) => {
-        console.log(values);
+        handleConfirmEmail(values, actions);
+    };
+
+    const handleConfirmEmail = async (values: IVerifyEmailValues, actions: FormikHelpers<IVerifyEmailValues>) => {
+        try {
+            await confirmSignUp(values);
+            removeFromLocalStorage(LS_EMAIL);
+            actions.setSubmitting(false);
+            navigate("/signin");
+        } catch (error) {
+            actions.setSubmitting(false);
+            console.log(error);
+        }
     };
     return (
         <FormWrapper>
@@ -25,6 +51,27 @@ const VerifyEmailForm = () => {
                 {(formik) => {
                     return (
                         <Form>
+                            {!email && (
+                                <TextField
+                                    label="Email"
+                                    size="medium"
+                                    name="email"
+                                    sx={{
+                                        border: "1px solid #FFF",
+                                        borderRadius: 1,
+                                        width: "100%",
+                                        mt: "12px",
+                                    }}
+                                    autoComplete="off"
+                                    type="text"
+                                    placeholder="Email"
+                                    value={formik.values.email}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.email && Boolean(formik.errors.email)}
+                                    helperText={formik.touched.email && formik.errors.email}
+                                />
+                            )}
                             <TextField
                                 label="Code"
                                 size="medium"
@@ -45,7 +92,14 @@ const VerifyEmailForm = () => {
                                 helperText={formik.touched.code && formik.errors.code}
                             />
 
-                            <Button type="submit" variant="contained" disableElevation fullWidth sx={{ mt: "12px" }}>
+                            <Button
+                                disabled={!formik.isValid || formik.isSubmitting}
+                                type="submit"
+                                variant="contained"
+                                disableElevation
+                                fullWidth
+                                sx={{ mt: "12px" }}
+                            >
                                 Submit
                             </Button>
                         </Form>

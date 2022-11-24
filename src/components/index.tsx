@@ -6,3 +6,4 @@ export { default as ResetPasswordStep2Form } from "./forms/ResetPasswordStep2For
 export { default as ChangePasswordForm } from "./forms/ChangePasswordForm";
 export { default as FormWrapper } from "./common/FormWrapper";
 export { default as PageWrapper } from "./common/PageWrapper";
+export { default as Timer } from "./Timer";

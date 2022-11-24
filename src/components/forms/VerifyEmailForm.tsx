@@ -8,10 +8,12 @@ import { IVerifyEmailValues } from "../../interfaces/IVerifyEmailValues";
 import { getFromLocalStorage, removeFromLocalStorage } from "../../utils";
 import { LS_EMAIL } from "../../utils/constants";
 import FormWrapper from "../common/FormWrapper";
+import Timer from "../Timer";
 
 const VerifyEmailForm = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState<string | null>(null);
+    const [resendCountdownStart, setResendCountdownStart] = useState<boolean>(false);
 
     useEffect(() => {
         setEmail(getFromLocalStorage(LS_EMAIL));
@@ -48,6 +50,7 @@ const VerifyEmailForm = () => {
         if (email) {
             try {
                 await resendConfirmationCode(email);
+                setResendCountdownStart(true);
             } catch (error) {
                 console.log(error);
             }
@@ -107,15 +110,19 @@ const VerifyEmailForm = () => {
 
                             <Typography textAlign="right" mt={1}>
                                 Didn&apos;t receive the code?
-                                <Typography
-                                    display="inline-block"
-                                    ml={1}
-                                    color="primary"
-                                    sx={{ cursor: "pointer", "&:hover": { textDecoration: "underline" } }}
-                                    onClick={handleResendCode}
-                                >
-                                    Resend
-                                </Typography>
+                                {resendCountdownStart ? (
+                                    <Timer setResendCountdownStart={setResendCountdownStart} />
+                                ) : (
+                                    <Typography
+                                        display="inline-block"
+                                        ml={1}
+                                        color="primary"
+                                        sx={{ cursor: "pointer", "&:hover": { textDecoration: "underline" } }}
+                                        onClick={handleResendCode}
+                                    >
+                                        Resend
+                                    </Typography>
+                                )}
                             </Typography>
                             <Button
                                 disabled={!formik.isValid || formik.isSubmitting}

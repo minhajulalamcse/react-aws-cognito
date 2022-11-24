@@ -7,3 +7,5 @@ export { default as ChangePasswordForm } from "./forms/ChangePasswordForm";
 export { default as FormWrapper } from "./common/FormWrapper";
 export { default as PageWrapper } from "./common/PageWrapper";
 export { default as Timer } from "./Timer";
+export { default as TopNavigation } from "./Navigation/TopNavigation";
+export { default as LeftNavigation } from "./Navigation/LeftNavigation";

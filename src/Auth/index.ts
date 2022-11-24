@@ -1,7 +1,10 @@
 import { Auth } from "aws-amplify";
+import { IResetPasswordStep2Form } from "../interfaces/IResetPasswordStep2Form";
 import { ISignInFormValues } from "../interfaces/ISignInFormValues";
 import { ISignUpFormValues } from "../interfaces/ISignUpFormValues";
 import { IVerifyEmailValues } from "../interfaces/IVerifyEmailValues";
+import { getFromLocalStorage } from "../utils";
+import { LS_EMAIL } from "../utils/constants";
 
 export const signUp = async (values: ISignUpFormValues) => {
     const { firstName, lastName, email, password } = values;
@@ -42,6 +45,27 @@ export const signIn = async (values: ISignInFormValues) => {
     try {
         const user = await Auth.signIn(email, password);
         return user;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getResetPasswordCodeByEmail = async (email: string) => {
+    try {
+        await Auth.forgotPassword(email)
+            .then((data) => console.log(data))
+            .catch((err) => console.log(err));
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const resetPassword = async (values: IResetPasswordStep2Form) => {
+    const { email, code, password } = values;
+    try {
+        Auth.forgotPasswordSubmit(email, code, password)
+            .then((data) => console.log(data))
+            .catch((err) => console.log(err));
     } catch (error) {
         throw error;
     }

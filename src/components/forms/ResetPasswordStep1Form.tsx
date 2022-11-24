@@ -1,6 +1,7 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as yup from "yup";
+import { getResetPasswordCodeByEmail } from "../../Auth";
 import { IResetPasswordStep1Form } from "../../interfaces/IResetPasswordStep1Form";
 import FormWrapper from "../common/FormWrapper";
 
@@ -14,9 +15,22 @@ const ResetPasswordStep1Form = () => {
     });
 
     const onSubmit = (values: IResetPasswordStep1Form, actions: FormikHelpers<IResetPasswordStep1Form>) => {
-        console.log(values);
-        localStorage.setItem("email", values.email);
-        window.dispatchEvent(new Event("storage"));
+        getResetPasswordCode(values, actions);
+    };
+
+    const getResetPasswordCode = async (
+        values: IResetPasswordStep1Form,
+        actions: FormikHelpers<IResetPasswordStep1Form>
+    ) => {
+        try {
+            await getResetPasswordCodeByEmail(values.email);
+            localStorage.setItem("email", values.email);
+            window.dispatchEvent(new Event("storage"));
+            actions.setSubmitting(false);
+        } catch (error) {
+            actions.setSubmitting(false);
+            console.log(error);
+        }
     };
     return (
         <FormWrapper>

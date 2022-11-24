@@ -3,7 +3,7 @@ import { Formik, Form, FormikHelpers } from "formik";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import { confirmSignUp } from "../../Auth";
+import { confirmSignUp, resendConfirmationCode } from "../../Auth";
 import { IVerifyEmailValues } from "../../interfaces/IVerifyEmailValues";
 import { getFromLocalStorage, removeFromLocalStorage } from "../../utils";
 import { LS_EMAIL } from "../../utils/constants";
@@ -40,6 +40,19 @@ const VerifyEmailForm = () => {
         } catch (error) {
             actions.setSubmitting(false);
             console.log(error);
+        }
+    };
+
+    const handleResendCode = async () => {
+        const email = getFromLocalStorage(LS_EMAIL);
+        if (email) {
+            try {
+                await resendConfirmationCode(email);
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            // redirect to page so that user can provide email and request again for code
         }
     };
     return (
@@ -92,6 +105,18 @@ const VerifyEmailForm = () => {
                                 helperText={formik.touched.code && formik.errors.code}
                             />
 
+                            <Typography textAlign="right" mt={1}>
+                                Didn&apos;t receive the code?
+                                <Typography
+                                    display="inline-block"
+                                    ml={1}
+                                    color="primary"
+                                    sx={{ cursor: "pointer", "&:hover": { textDecoration: "underline" } }}
+                                    onClick={handleResendCode}
+                                >
+                                    Resend
+                                </Typography>
+                            </Typography>
                             <Button
                                 disabled={!formik.isValid || formik.isSubmitting}
                                 type="submit"

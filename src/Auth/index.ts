@@ -19,6 +19,14 @@ export const signUp = async (values: ISignUpFormValues) => {
     }
 };
 
+export const resendConfirmationCode = async (email: string) => {
+    try {
+        await Auth.resendSignUp(email);
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const confirmSignUp = async (values: IVerifyEmailValues) => {
     const { email, code } = values;
     try {

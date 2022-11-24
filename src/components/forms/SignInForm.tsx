@@ -39,7 +39,7 @@ const SignInForm = () => {
                                 }}
                                 autoComplete="off"
                                 type="text"
-                                placeholder="First Name"
+                                placeholder="Email"
                                 value={formik.values.email}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}

@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import { PageWrapper, SignUpForm } from "../components";
 
 const SignUpPage = () => {

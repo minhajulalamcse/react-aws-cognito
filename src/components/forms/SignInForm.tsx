@@ -1,6 +1,7 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as yup from "yup";
+import { signIn } from "../../Auth";
 import { ISignInFormValues } from "../../interfaces/ISignInFormValues";
 import FormWrapper from "../common/FormWrapper";
 
@@ -16,7 +17,17 @@ const SignInForm = () => {
     });
 
     const onSubmit = (values: ISignInFormValues, actions: FormikHelpers<ISignInFormValues>) => {
-        console.log(values);
+        handleSignIn(values, actions);
+    };
+
+    const handleSignIn = async (values: ISignInFormValues, actions: FormikHelpers<ISignInFormValues>) => {
+        try {
+            const user = await signIn(values);
+            actions.setSubmitting(false);
+        } catch (error) {
+            actions.setSubmitting(false);
+            console.log(error);
+        }
     };
     return (
         <FormWrapper>
@@ -67,7 +78,14 @@ const SignInForm = () => {
                                 helperText={formik.touched.password && formik.errors.password}
                             />
 
-                            <Button type="submit" variant="contained" disableElevation fullWidth sx={{ mt: "12px" }}>
+                            <Button
+                                disabled={!formik.isValid || formik.isSubmitting}
+                                type="submit"
+                                variant="contained"
+                                disableElevation
+                                fullWidth
+                                sx={{ mt: "12px" }}
+                            >
                                 Submit
                             </Button>
                         </Form>

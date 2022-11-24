@@ -1,10 +1,16 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { CognitoUser } from "@aws-amplify/auth";
+import { Button, TextField, Typography } from "@mui/material";
 import { Formik, Form, FormikHelpers } from "formik";
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { signUp } from "../../Auth";
 import { ISignUpFormValues } from "../../interfaces/ISignUpFormValues";
+import { saveInLocalStorage } from "../../utils";
 import FormWrapper from "../common/FormWrapper";
 
 const SignUpForm = () => {
+    const navigate = useNavigate();
+
     const initialValues: ISignUpFormValues = {
         firstName: "",
         lastName: "",
@@ -25,8 +31,19 @@ const SignUpForm = () => {
     });
 
     const onSubmit = (values: ISignUpFormValues, actions: FormikHelpers<ISignUpFormValues>) => {
-        console.log(values);
+        handleCreateUser(values);
     };
+
+    const handleCreateUser = async (values: ISignUpFormValues) => {
+        try {
+            const user: CognitoUser = await signUp(values);
+            saveInLocalStorage("email", user.getUsername());
+            navigate("/verify-email");
+        } catch (error: any) {
+            console.log(error);
+        }
+    };
+
     return (
         <FormWrapper>
             <Typography variant="h5" mb={1} textAlign="center">

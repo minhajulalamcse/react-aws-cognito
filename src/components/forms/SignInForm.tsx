@@ -1,11 +1,14 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { Formik, Form, FormikHelpers } from "formik";
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { signIn } from "../../Auth";
 import { ISignInFormValues } from "../../interfaces/ISignInFormValues";
 import FormWrapper from "../common/FormWrapper";
 
 const SignInForm = () => {
+    const navigate = useNavigate();
+
     const initialValues: ISignInFormValues = {
         email: "",
         password: "",
@@ -29,6 +32,11 @@ const SignInForm = () => {
             console.log(error);
         }
     };
+
+    const handleForgotPassword = () => {
+        navigate("/reset-password");
+    };
+
     return (
         <FormWrapper>
             <Typography variant="h5" mb={1} textAlign="center">
@@ -78,6 +86,21 @@ const SignInForm = () => {
                                 helperText={formik.touched.password && formik.errors.password}
                             />
 
+                            <Typography
+                                textAlign="right"
+                                mt={1}
+                                color="primary"
+                                sx={{
+                                    cursor: "pointer",
+                                    "&:hover": {
+                                        textDecoration: "underline",
+                                    },
+                                }}
+                                onClick={handleForgotPassword}
+                            >
+                                Forgot password?
+                            </Typography>
+                            
                             <Button
                                 disabled={!formik.isValid || formik.isSubmitting}
                                 type="submit"

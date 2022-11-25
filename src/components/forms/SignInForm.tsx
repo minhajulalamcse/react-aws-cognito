@@ -26,6 +26,7 @@ const SignInForm = () => {
     const handleSignIn = async (values: ISignInFormValues, actions: FormikHelpers<ISignInFormValues>) => {
         try {
             const user = await signIn(values);
+            navigate("/home");
             actions.setSubmitting(false);
         } catch (error) {
             actions.setSubmitting(false);
@@ -100,7 +101,7 @@ const SignInForm = () => {
                             >
                                 Forgot password?
                             </Typography>
-                            
+
                             <Button
                                 disabled={!formik.isValid || formik.isSubmitting}
                                 type="submit"

@@ -3,8 +3,7 @@ import { IResetPasswordStep2Form } from "../interfaces/IResetPasswordStep2Form";
 import { ISignInFormValues } from "../interfaces/ISignInFormValues";
 import { ISignUpFormValues } from "../interfaces/ISignUpFormValues";
 import { IVerifyEmailValues } from "../interfaces/IVerifyEmailValues";
-import { getFromLocalStorage } from "../utils";
-import { LS_EMAIL } from "../utils/constants";
+import { saveInLocalStorage } from "../utils";
 
 export const signUp = async (values: ISignUpFormValues) => {
     const { firstName, lastName, email, password } = values;
@@ -44,6 +43,8 @@ export const signIn = async (values: ISignInFormValues) => {
     const { email, password } = values;
     try {
         const user = await Auth.signIn(email, password);
+        saveInLocalStorage("accessToken", JSON.stringify(user.signInUserSession.accessToken.jwtToken));
+        saveInLocalStorage("authUser", JSON.stringify(user.attributes));
         return user;
     } catch (error) {
         throw error;

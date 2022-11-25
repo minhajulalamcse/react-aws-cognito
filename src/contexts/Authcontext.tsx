@@ -1,6 +1,7 @@
 import { CircularProgress, Stack } from "@mui/material";
 import { Auth } from "aws-amplify";
 import React, { useContext, useEffect, useState } from "react";
+import { saveInLocalStorage } from "../utils";
 
 interface AuthContextValues {
     accessToken: string | null;
@@ -20,15 +21,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [authUser, setAuthUser] = useState<any>(null);
     const publicRoutes = ["/signin", "/signup", "/reset-password", "/verify-email", "/forgot-password"];
 
-    const clearAll = () => {
-        if (typeof window !== undefined) {
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("authUser");
-        }
-        setAccessToken(null);
-        setAuthUser(null);
-    };
-
     useEffect(() => {
         try {
             if (!accessToken && publicRoutes.indexOf(window.location.pathname) === -1) {
@@ -41,13 +33,28 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                     clearAll();
                     window.location.replace("/signin");
                 }
-            } else if (accessToken && publicRoutes.indexOf(window.location.pathname) !== -1) {
-                window.location.replace("/home");
+            }
+            if (publicRoutes.indexOf(window.location.pathname) !== -1) {
+                if (
+                    accessToken ||
+                    (localStorage.getItem("accessToken") && localStorage.getItem("accessToken") !== "undefined")
+                ) {
+                    window.location.replace("/home");
+                }
             }
         } catch (error) {
             console.log(error);
         }
     });
+
+    const clearAll = () => {
+        if (typeof window !== undefined) {
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("authUser");
+        }
+        setAccessToken(null);
+        setAuthUser(null);
+    };
 
     return (
         <AuthContext.Provider
@@ -58,7 +65,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                 setAccessToken,
             }}
         >
-            {accessToken || publicRoutes.indexOf(window.location.pathname) !== -1 ? (
+            {(accessToken && publicRoutes.indexOf(window.location.pathname) === -1) ||
+            (!accessToken &&
+                publicRoutes.indexOf(window.location.pathname) !== -1 &&
+                !localStorage.getItem("accessToken")) ? (
                 children
             ) : (
                 <Stack

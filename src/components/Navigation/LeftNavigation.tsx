@@ -5,17 +5,41 @@ const LeftNavigation = () => {
     const navActiveLinkStyle = ({ isActive }: { isActive: boolean }) => {
         return {
             fontWeight: isActive ? "bold" : "normal",
-            background: isActive ? "#e6e6e6" : "none",
+            background: isActive ? "#fff" : "none",
         };
     };
-    const LinkWrapper = styled(NavLink)(() => ({
+    const LinkWrapper = styled(NavLink)(({ theme }) => ({
         textDecoration: "none",
         fontWeight: "normal",
         padding: "12px",
         width: "100%",
         color: "black",
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        boxSizing: "border-box",
+        borderRadius: "5px",
+        marginBottom: "8px",
+        transition: "0.5s all ease-in-out",
         "&:hover": {
-            background: "#f0f0f0",
+            background: "#fff",
+        },
+        [theme.breakpoints.down("md")]: {
+            p: {
+                display: "none",
+            },
+        },
+    }));
+
+    const IconWrapper = styled(Box)(({ theme }) => ({
+        minWidth: "20px",
+        minHeight: "20px",
+        background: "#BEBEBE",
+        borderRadius: 1,
+        marginRight: "8px",
+        transition: "0.5s all ease-in-out",
+        [theme.breakpoints.down("md")]: {
+            marginRight: "0px",
         },
     }));
     return (
@@ -27,19 +51,23 @@ const LeftNavigation = () => {
                 justifyContent="center"
                 alignItems="center"
             >
-                <Typography color="red" display="inline-block" fontWeight="bold">
-                    React{" "}
-                    <Typography color="black" display="inline-block" fontWeight="bold">
-                        AWS Cognito
-                    </Typography>
+                <Typography display="inline-block" fontWeight="bold">
+                    RAC
                 </Typography>
             </Box>
-            <Box display="flex" flexDirection="column" justifyContent="flex-start" alignItems="flex-start">
+            <Box display="flex" flexDirection="column" justifyContent="flex-start" alignItems="flex-start" p={3}>
                 <LinkWrapper to="/home" style={navActiveLinkStyle}>
-                    Home
+                    <IconWrapper />
+                    <Typography variant="body1">Home</Typography>
                 </LinkWrapper>
-                <LinkWrapper to="/profile">Profile</LinkWrapper>
-                <LinkWrapper to="/change-password">Change Password</LinkWrapper>
+                <LinkWrapper to="/profile">
+                    <IconWrapper />
+                    <Typography variant="body1">Profile</Typography>
+                </LinkWrapper>
+                <LinkWrapper to="/change-password">
+                    <IconWrapper />
+                    <Typography variant="body1">Change Password</Typography>
+                </LinkWrapper>
             </Box>
         </Box>
     );

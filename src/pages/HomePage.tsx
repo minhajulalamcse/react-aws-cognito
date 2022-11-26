@@ -10,7 +10,7 @@ const HomePage = () => {
     const NavigationContainer = styled(Grid)(({ theme }) => ({
         display: "flex",
         flex: "0 0 250px",
-        background: "#f4f4f4",
+        background: "#F0F4F7",
         borderRight: "1px solid #e6e6e6",
         transition: "0.5s all ease-in-out",
         [theme.breakpoints.down("md")]: {

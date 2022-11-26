@@ -1,7 +1,8 @@
 import { Grid, styled, Box } from "@mui/material";
+import { Outlet } from "react-router-dom";
 import { LeftNavigation, TopNavigation } from "../components";
 
-const HomePage = () => {
+const MainPageTemplate = () => {
     const TemplateGrid = styled(Grid)(({ theme }) => ({
         overflow: "auto",
         background: "#fff",
@@ -24,12 +25,12 @@ const HomePage = () => {
             </NavigationContainer>
             <TemplateGrid xs={12} display="flex" flexDirection="column" height="100%">
                 <TopNavigation />
-                <Box flex={1} p={3} overflow="auto">
-                    Main Content
+                <Box flex={1} p={3} overflow="auto" display="flex" justifyContent="center" alignItems="flex-start">
+                    <Outlet />
                 </Box>
             </TemplateGrid>
         </Grid>
     );
 };
 
-export default HomePage;
+export default MainPageTemplate;

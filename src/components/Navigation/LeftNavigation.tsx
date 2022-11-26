@@ -56,13 +56,9 @@ const LeftNavigation = () => {
                 </Typography>
             </Box>
             <Box display="flex" flexDirection="column" justifyContent="flex-start" alignItems="flex-start" p={3}>
-                <LinkWrapper to="/home" style={navActiveLinkStyle}>
+                <LinkWrapper to="/dashboard" style={navActiveLinkStyle}>
                     <IconWrapper />
-                    <Typography variant="body1">Home</Typography>
-                </LinkWrapper>
-                <LinkWrapper to="/profile">
-                    <IconWrapper />
-                    <Typography variant="body1">Profile</Typography>
+                    <Typography variant="body1">Dashboard</Typography>
                 </LinkWrapper>
                 <LinkWrapper to="/change-password">
                     <IconWrapper />

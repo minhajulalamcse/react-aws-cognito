@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                     accessToken ||
                     (localStorage.getItem("accessToken") && localStorage.getItem("accessToken") !== "undefined")
                 ) {
-                    window.location.replace("/home");
+                    window.location.replace("/dashboard");
                 }
             }
         } catch (error) {

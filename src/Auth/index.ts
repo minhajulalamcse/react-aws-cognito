@@ -1,4 +1,5 @@
 import { Auth } from "aws-amplify";
+import { IChangePassword } from "../interfaces/IChangePassword";
 import { IResetPasswordStep2Form } from "../interfaces/IResetPasswordStep2Form";
 import { ISignInFormValues } from "../interfaces/ISignInFormValues";
 import { ISignUpFormValues } from "../interfaces/ISignUpFormValues";
@@ -76,6 +77,20 @@ export const resetPassword = async (values: IResetPasswordStep2Form) => {
 export const signout = async () => {
     try {
         await Auth.signOut();
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const changePassword = async (values: IChangePassword) => {
+    const { oldPassword, newPassword } = values;
+    try {
+        Auth.currentAuthenticatedUser()
+            .then((user) => {
+                return Auth.changePassword(user, oldPassword, newPassword);
+            })
+            .then((data) => console.log(data))
+            .catch((err) => console.log(err));
     } catch (error) {
         throw error;
     }

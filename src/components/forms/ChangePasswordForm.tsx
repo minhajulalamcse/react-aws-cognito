@@ -1,6 +1,7 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as yup from "yup";
+import { changePassword } from "../../Auth";
 import { IChangePassword } from "../../interfaces/IChangePassword";
 import FormWrapper from "../common/FormWrapper";
 
@@ -16,13 +17,25 @@ const ChangePasswordForm = () => {
         newPassword: yup.string().min(8, "Password must be at least 8 characters").required("Required"),
         confirmPassword: yup
             .string()
-            .oneOf([yup.ref("password"), null], "Passwords must match")
+            .oneOf([yup.ref("newPassword"), null], "Passwords must match")
             .required("Required"),
     });
 
     const onSubmit = (values: IChangePassword, actions: FormikHelpers<IChangePassword>) => {
+        handleChangePassword(values, actions);
         console.log(values);
     };
+
+    const handleChangePassword = async (values: IChangePassword, actions: FormikHelpers<IChangePassword>) => {
+        try {
+            await changePassword(values);
+            actions.setSubmitting(false);
+        } catch (error: any) {
+            actions.setSubmitting(false);
+            console.log(error);
+        }
+    };
+
     return (
         <FormWrapper>
             <Typography variant="h5" mb={1} textAlign="center">
@@ -63,7 +76,7 @@ const ChangePasswordForm = () => {
                                     mt: "12px",
                                 }}
                                 autoComplete="off"
-                                type="newPassword"
+                                type="password"
                                 placeholder="New Password"
                                 value={formik.values.newPassword}
                                 onChange={formik.handleChange}
@@ -83,7 +96,7 @@ const ChangePasswordForm = () => {
                                     mt: "12px",
                                 }}
                                 autoComplete="off"
-                                type="confirmPassword"
+                                type="password"
                                 placeholder="Confirm Password"
                                 value={formik.values.confirmPassword}
                                 onChange={formik.handleChange}
@@ -92,7 +105,14 @@ const ChangePasswordForm = () => {
                                 helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
                             />
 
-                            <Button type="submit" variant="contained" disableElevation fullWidth sx={{ mt: "12px" }}>
+                            <Button
+                                disabled={!formik.isValid || formik.isSubmitting}
+                                type="submit"
+                                variant="contained"
+                                disableElevation
+                                fullWidth
+                                sx={{ mt: "12px" }}
+                            >
                                 Submit
                             </Button>
                         </Form>

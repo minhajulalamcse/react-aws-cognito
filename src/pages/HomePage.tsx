@@ -9,8 +9,9 @@ const HomePage = () => {
     }));
     const NavigationContainer = styled(Grid)(({ theme }) => ({
         display: "flex",
-        flex: "0 0 200px",
-        background: "#ebebeb",
+        flex: "0 0 250px",
+        background: "#f4f4f4",
+        borderRight: "1px solid #e6e6e6",
         transition: "0.5s all ease-in-out",
         [theme.breakpoints.down("md")]: {
             flex: "0 0 50px",
@@ -18,7 +19,7 @@ const HomePage = () => {
     }));
     return (
         <Grid display="flex" height="100vh">
-            <NavigationContainer p={3}>
+            <NavigationContainer>
                 <LeftNavigation />
             </NavigationContainer>
             <TemplateGrid xs={12} display="flex" flexDirection="column" height="100%">

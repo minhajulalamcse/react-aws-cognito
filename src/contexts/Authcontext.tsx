@@ -1,13 +1,12 @@
 import { CircularProgress, Stack } from "@mui/material";
-import { Auth } from "aws-amplify";
 import React, { useContext, useEffect, useState } from "react";
-import { saveInLocalStorage } from "../utils";
 
 interface AuthContextValues {
     accessToken: string | null;
     authUser: any;
     setAuthUser: Function;
     setAccessToken: Function;
+    clearAll: Function;
 }
 
 export const AuthContext = React.createContext<AuthContextValues>({} as AuthContextValues);
@@ -20,6 +19,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [accessToken, setAccessToken] = useState<string | null>(null);
     const [authUser, setAuthUser] = useState<any>(null);
     const publicRoutes = ["/signin", "/signup", "/reset-password", "/verify-email", "/forgot-password"];
+
+    useEffect(() => {
+        const checkAuth = () => {
+            if (localStorage.getItem("authUser") && localStorage.getItem("authUser") !== "undefined") {
+                setAuthUser(JSON.parse(localStorage.getItem("authUser") as string));
+            }
+            if (localStorage.getItem("accessToken") && localStorage.getItem("accessToken") !== "undefined") {
+                setAccessToken(localStorage.getItem("accessToken"));
+            }
+        };
+        window.addEventListener("storage", checkAuth);
+        return () => {
+            window.removeEventListener("storage", checkAuth);
+        };
+    }, []);
 
     useEffect(() => {
         try {
@@ -63,12 +77,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                 authUser,
                 setAuthUser,
                 setAccessToken,
+                clearAll,
             }}
         >
-            {(accessToken && publicRoutes.indexOf(window.location.pathname) === -1) ||
-            (!accessToken &&
-                publicRoutes.indexOf(window.location.pathname) !== -1 &&
-                !localStorage.getItem("accessToken")) ? (
+            {!accessToken &&
+            publicRoutes.indexOf(window.location.pathname) !== -1 &&
+            !localStorage.getItem("accessToken") ? (
+                children
+            ) : accessToken && publicRoutes.indexOf(window.location.pathname) === -1 ? (
                 children
             ) : (
                 <Stack

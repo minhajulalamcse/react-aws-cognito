@@ -25,8 +25,7 @@ const SignInForm = () => {
 
     const handleSignIn = async (values: ISignInFormValues, actions: FormikHelpers<ISignInFormValues>) => {
         try {
-            const user = await signIn(values);
-            navigate("/home");
+            await signIn(values);
             actions.setSubmitting(false);
         } catch (error) {
             actions.setSubmitting(false);

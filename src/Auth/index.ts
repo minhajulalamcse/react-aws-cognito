@@ -45,6 +45,7 @@ export const signIn = async (values: ISignInFormValues) => {
         const user = await Auth.signIn(email, password);
         saveInLocalStorage("accessToken", JSON.stringify(user.signInUserSession.accessToken.jwtToken));
         saveInLocalStorage("authUser", JSON.stringify(user.attributes));
+        window.dispatchEvent(new Event("storage"));
         return user;
     } catch (error) {
         throw error;
@@ -67,6 +68,14 @@ export const resetPassword = async (values: IResetPasswordStep2Form) => {
         Auth.forgotPasswordSubmit(email, code, password)
             .then((data) => console.log(data))
             .catch((err) => console.log(err));
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const signout = async () => {
+    try {
+        await Auth.signOut();
     } catch (error) {
         throw error;
     }

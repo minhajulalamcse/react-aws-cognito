@@ -47,6 +47,9 @@ const SignUpForm = () => {
         }
     };
 
+    const handleSignInClick = () => {
+        navigate("/signin");
+    };
     return (
         <FormWrapper>
             <Typography variant="h5" mb={1} textAlign="center">
@@ -164,6 +167,18 @@ const SignUpForm = () => {
                             >
                                 Submit
                             </Button>
+                            <Typography textAlign="center" mt={2}>
+                                Already have an account?
+                                <Typography
+                                    ml={1}
+                                    color="primary"
+                                    display="inline-block"
+                                    onClick={handleSignInClick}
+                                    sx={{ cursor: "pointer" }}
+                                >
+                                    Sign In
+                                </Typography>
+                            </Typography>
                         </Form>
                     );
                 }}

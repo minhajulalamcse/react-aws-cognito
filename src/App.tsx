@@ -1,14 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { ChangePasswordForm } from "./components";
 import { Dashboard } from "./container";
-import {
-    ChangePasswordPage,
-    MainPageTemplate,
-    ResetPasswordPage,
-    SignInPage,
-    SignUpPage,
-    VerifyEmailPage,
-} from "./pages";
+import { MainPageTemplate, ResetPasswordPage, SignInPage, SignUpPage, VerifyEmailPage } from "./pages";
 
 function App() {
     return (

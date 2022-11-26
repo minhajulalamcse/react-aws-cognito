@@ -60,7 +60,7 @@ const LeftNavigation = () => {
                     <IconWrapper />
                     <Typography variant="body1">Dashboard</Typography>
                 </LinkWrapper>
-                <LinkWrapper to="/change-password">
+                <LinkWrapper to="/change-password" style={navActiveLinkStyle}>
                     <IconWrapper />
                     <Typography variant="body1">Change Password</Typography>
                 </LinkWrapper>

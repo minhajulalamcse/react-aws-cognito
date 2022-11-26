@@ -34,19 +34,17 @@ const TopNavigation = () => {
         <Box
             p={3}
             sx={{ borderBottom: "1px solid #e6e6e6" }}
-            boxShadow={1}
             display="flex"
             alignItems="center"
             justifyContent="flex-end"
         >
-            <Button
-                disableElevation
-                disableRipple
-                sx={{ cursor: "pointer", background: "none", border: "none", outline: "none" }}
+            <Box
+                component="button"
+                sx={{ cursor: "pointer", border: "none", background: "none" }}
                 onClick={handleNameClick}
             >
                 <Avatar alt={name} src={name?.substring(0, 1)} sx={{ width: 32, height: 32 }} />
-            </Button>
+            </Box>
             <Popover
                 sx={{ boxShadow: "none" }}
                 open={open}
@@ -71,7 +69,20 @@ const TopNavigation = () => {
                     >
                         {name}
                     </Typography>
-                    <Typography px={2} pt={1} variant="subtitle1" sx={{ cursor: "pointer" }} onClick={handleLogout}>
+                    <Typography
+                        mx={1}
+                        px={1}
+                        mt={1}
+                        borderRadius={1}
+                        variant="subtitle1"
+                        sx={{
+                            cursor: "pointer",
+                            "&:hover": {
+                                background: "#e6e6e6",
+                            },
+                        }}
+                        onClick={handleLogout}
+                    >
                         Logout
                     </Typography>
                 </Box>

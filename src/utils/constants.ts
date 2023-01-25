@@ -1,1 +1,1 @@
-export const LS_EMAIL = "email";
+export const LS_EMAIL = 'email'

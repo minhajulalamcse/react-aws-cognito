@@ -1,11 +1,11 @@
-import { PageWrapper, SignUpForm } from "../components";
+import { PageWrapper, SignUpForm } from '../components'
 
 const SignUpPage = () => {
-    return (
-        <PageWrapper>
-            <SignUpForm />
-        </PageWrapper>
-    );
-};
+  return (
+    <PageWrapper>
+      <SignUpForm />
+    </PageWrapper>
+  )
+}
 
-export default SignUpPage;
+export default SignUpPage

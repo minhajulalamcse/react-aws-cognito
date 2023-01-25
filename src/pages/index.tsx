@@ -1,6 +1,6 @@
-export { default as MainPageTemplate } from "./MainPageTemplate";
-export { default as SignInPage } from "./SignInPage";
-export { default as SignUpPage } from "./SignUpPage";
-export { default as VerifyEmailPage } from "./VerifyEmailPage";
-export { default as ResetPasswordPage } from "./ResetPasswordPage";
-export { default as ChangePasswordPage } from "./ChangePasswordPage";
+export { default as ChangePasswordPage } from './ChangePasswordPage'
+export { default as MainPageTemplate } from './MainPageTemplate'
+export { default as ResetPasswordPage } from './ResetPasswordPage'
+export { default as SignInPage } from './SignInPage'
+export { default as SignUpPage } from './SignUpPage'
+export { default as VerifyEmailPage } from './VerifyEmailPage'

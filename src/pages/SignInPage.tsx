@@ -1,11 +1,11 @@
-import { PageWrapper, SignInForm } from "../components";
+import { PageWrapper, SignInForm } from '../components'
 
 const SignInPage = () => {
-    return (
-        <PageWrapper>
-            <SignInForm />
-        </PageWrapper>
-    );
-};
+  return (
+    <PageWrapper>
+      <SignInForm />
+    </PageWrapper>
+  )
+}
 
-export default SignInPage;
+export default SignInPage

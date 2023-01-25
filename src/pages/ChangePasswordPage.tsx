@@ -1,11 +1,11 @@
-import { ChangePasswordForm, PageWrapper } from "../components";
+import { ChangePasswordForm, PageWrapper } from '../components'
 
 const ChangePasswordPage = () => {
-    return (
-        <PageWrapper>
-            <ChangePasswordForm />
-        </PageWrapper>
-    );
-};
+  return (
+    <PageWrapper>
+      <ChangePasswordForm />
+    </PageWrapper>
+  )
+}
 
-export default ChangePasswordPage;
+export default ChangePasswordPage

@@ -1,11 +1,11 @@
-import { PageWrapper, VerifyEmailForm } from "../components";
+import { PageWrapper, VerifyEmailForm } from '../components'
 
 const VerifyEmailPage = () => {
-    return (
-        <PageWrapper>
-            <VerifyEmailForm />
-        </PageWrapper>
-    );
-};
+  return (
+    <PageWrapper>
+      <VerifyEmailForm />
+    </PageWrapper>
+  )
+}
 
-export default VerifyEmailPage;
+export default VerifyEmailPage

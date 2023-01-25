@@ -16,17 +16,16 @@ export const AuthContext = React.createContext<AuthContextValues>(
 interface AuthProviderProps {
   children: React.ReactNode
 }
-
+const publicRoutes = [
+  '/signin',
+  '/signup',
+  '/reset-password',
+  '/verify-email',
+  '/forgot-password'
+]
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [authUser, setAuthUser] = useState<any>(null)
-  const publicRoutes = [
-    '/signin',
-    '/signup',
-    '/reset-password',
-    '/verify-email',
-    '/forgot-password'
-  ]
 
   useEffect(() => {
     const checkAuth = () => {
@@ -83,10 +82,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } catch (error) {
       console.log(error)
     }
-  }, [accessToken, publicRoutes])
+  }, [accessToken])
 
   const clearAll = () => {
-    if (typeof window !== undefined) {
+    if (typeof window !== 'undefined') {
       localStorage.removeItem('accessToken')
       localStorage.removeItem('authUser')
     }
